@@ -20,7 +20,7 @@ init();
 document.querySelector('.btn-newScore').addEventListener('click', function(){
     var i;
     winningScore = document.getElementById('winningScore');
-    if(setScore === ""){
+    if(setScore === "" && scores[0] === 0 && scores[1] === 0 && roundScore === 0){
         for (i = 0; i < winningScore.length ;i++) {
             setScore += winningScore.elements[i].value
         }  
@@ -58,14 +58,27 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
         // Check if player won the game
-        if (scores[activePlayer] >= setScore) {
-            document.getElementById('name-'+ activePlayer).textContent = 'Winner!';
-            diceDOM.style.display = 'none';
-            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-            gamePlaying = false;
+        var defaultScore = 100
+        if (!(setScore === "")) {
+            if (scores[activePlayer] >= setScore) {
+                document.getElementById('name-'+ activePlayer).textContent = 'Winner!';
+                diceDOM.style.display = 'none';
+                document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+                document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+                gamePlaying = false;
+            } else {
+                nextPlayer();
+            }
         } else {
-            nextPlayer();
+            if (scores[activePlayer] >= defaultScore) {
+                document.getElementById('name-'+ activePlayer).textContent = 'Winner!';
+                diceDOM.style.display = 'none';
+                document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+                document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+                gamePlaying = false;
+            } else {
+                nextPlayer();
+            }
         }
     }
 });
